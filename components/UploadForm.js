@@ -27,7 +27,6 @@ export default function UploadForm({ logout, user }) {
     royaltiesAmount: 10,
   });
 
-  console.log(inputFile);
   return (
     <>
       <Head>
@@ -71,7 +70,7 @@ export default function UploadForm({ logout, user }) {
                           await Moralis.enableWeb3();
                           await lazyMint({
                             params: {
-                              tokenUri: "/ifps/" + metadataFile._hash,
+                              tokenUri: "/ipfs/" + metadataFile._hash,
                             },
                             onSuccess: (res) => {
                               console.log(res);
