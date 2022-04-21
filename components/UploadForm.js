@@ -1,8 +1,9 @@
+import Moralis from "moralis";
 import Head from "next/head";
 import { useState } from "react";
-import { useMoralisFile } from "react-moralis";
+import { useMoralisFile, useRaribleLazyMint } from "react-moralis";
 
-export default function UploadForm({ logout }) {
+export default function UploadForm({ logout, user }) {
   const [input, setInput] = useState({
     nftName: "",
     description: "",
@@ -18,6 +19,13 @@ export default function UploadForm({ logout }) {
   };
 
   const { saveFile } = useMoralisFile();
+  const { lazyMint } = useRaribleLazyMint({
+    chain: "rinkeby",
+    userAddress: user.get("ethAddress"),
+    tokenType: "ERC1155",
+    supply: 1,
+    royaltiesAmount: 10,
+  });
 
   console.log(inputFile);
   return (
@@ -39,11 +47,39 @@ export default function UploadForm({ logout }) {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              if (inputFile !== null) {
+              if (
+                inputFile !== null &&
+                input.nftName.trim() !== "" &&
+                input.description.trim() !== ""
+              ) {
                 await saveFile(input.nftName, inputFile, {
                   saveIPFS: true,
-                  onSuccess: (file) => {
-                    console.log(file);
+                  onSuccess: async (file) => {
+                    let metadata = {
+                      name: input.nftName,
+                      description: input.description,
+                      image: "/ifps/" + file._hash,
+                    };
+                    await saveFile(
+                      `metadata ${input.nftName}`,
+                      {
+                        base64: btoa(JSON.stringify(metadata)),
+                      },
+                      {
+                        saveIPFS: true,
+                        onSuccess: async (metadataFile) => {
+                          await Moralis.enableWeb3();
+                          await lazyMint({
+                            params: {
+                              tokenUri: "/ifps/" + metadataFile._hash,
+                            },
+                            onSuccess: (res) => {
+                              console.log(res);
+                            },
+                          });
+                        },
+                      }
+                    );
                   },
                 });
               }

@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis";
 import UploadForm from "../components/UploadForm";
 
 export default function Home() {
-  const { isAuthenticated, authenticate, logout } = useMoralis();
+  const { isAuthenticated, authenticate, logout, user } = useMoralis();
 
   const metamaskAuth = async () => {
     try {
@@ -23,7 +23,7 @@ export default function Home() {
   }
   return (
     <div>
-      <UploadForm logout={logout} />
+      <UploadForm logout={logout} user={user} />
     </div>
   );
 }
