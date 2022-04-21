@@ -74,6 +74,14 @@ export default function UploadForm({ logout, user }) {
                             },
                             onSuccess: (res) => {
                               console.log(res);
+                              alert(
+                                `You have Sucessfully Minted Your Nft, You can view it on rinkerby.rarible website via`
+                              );
+                              setInput({
+                                nftName: "",
+                                description: "",
+                              });
+                              setInputFile(null);
                             },
                           });
                         },

@@ -1,5 +1,5 @@
 {
-  "name": "nft-minter",
+  "name": "doingud-minter-dapp",
   "private": true,
   "scripts": {
     "dev": "next dev",

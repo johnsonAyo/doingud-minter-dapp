@@ -15,9 +15,19 @@ export default function AuthPage({ metamaskAuth }) {
               src="/nft.png"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-600">
-              Mint your NFTs Now for FREE
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-600 heading">
+              Welcome to Doingud Minting decentralised Application
             </h2>
+            <p className="mt-4 text-center ">
+              Here you can mint your personal Arts as Nft, list it and sell it
+              without writing a single line of Code
+            </p>
+
+            <img
+              className="mt-5"
+              alt="Image"
+              src="https://i.ibb.co/Bwn0SPv/dg-og.jpg"
+            />
           </div>
           <button
             onClick={metamaskAuth}
@@ -30,7 +40,7 @@ export default function AuthPage({ metamaskAuth }) {
                 aria-hidden="true"
               />
             </span>
-            Auth with Metamask
+            Connect your Metamask to start Minting
           </button>
         </div>
       </div>
