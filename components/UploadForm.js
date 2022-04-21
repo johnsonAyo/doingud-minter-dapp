@@ -1,6 +1,22 @@
 import Head from "next/head";
+import { useState } from "react";
 
 export default function UploadForm({ logout }) {
+  const [input, setInput] = useState({
+    nftName: "",
+    description: "",
+  });
+
+  const [inputFile, setInputFile] = useState(null);
+
+  const handleOnChange = (e) => {
+    setInput((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  console.log(inputFile);
   return (
     <>
       <Head>
@@ -35,6 +51,8 @@ export default function UploadForm({ logout }) {
                         id="nftName"
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
                         placeholder="Doingud NFT"
+                        value={input.nftName}
+                        onChange={handleOnChange}
                       />
                     </div>
                   </div>
@@ -54,6 +72,8 @@ export default function UploadForm({ logout }) {
                       rows={3}
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                       placeholder="The only NFT you need to have in your wallet"
+                      value={input.description}
+                      onChange={handleOnChange}
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
@@ -88,6 +108,7 @@ export default function UploadForm({ logout }) {
                         >
                           <span>Upload your NFT</span>
                           <input
+                            onChange={(e) => setInputFile(e.target.files[0])}
                             id="file-upload"
                             name="file-upload"
                             type="file"
